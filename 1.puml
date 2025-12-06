@@ -1,0 +1,27 @@
+@startuml
+[*] --> Idle
+
+state Idle {
+}
+
+state WaitingForMoney {
+}
+
+state MoneyReceived {
+}
+
+state TicketDispensed {
+}
+
+state TransactionCanceled {
+}
+
+Idle --> WaitingForMoney : selectTicket()
+WaitingForMoney --> MoneyReceived : insertMoney(amount >= price)
+MoneyReceived --> TicketDispensed : dispenseTicket()
+WaitingForMoney --> TransactionCanceled : cancel()
+MoneyReceived --> TransactionCanceled : cancel()
+TicketDispensed --> Idle : complete()
+TransactionCanceled --> Idle : reset()
+
+@enduml

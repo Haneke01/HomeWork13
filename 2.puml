@@ -1,0 +1,45 @@
+@startuml
+left to right direction
+skinparam packageStyle rectangle
+
+actor "Читатель" as Reader
+actor "Библиотекарь" as Librarian
+actor "Администратор" as Admin
+
+Librarian --|> Reader
+Admin --|> Reader
+
+usecase "Регистрация пользователя" as UC_Register
+usecase "Просмотр и\nпоиск книг" as UC_ViewSearch
+usecase "Бронирование\nкниги" as UC_Reserve
+usecase "Отмена\nбронирования" as UC_CancelReserve
+usecase "Просмотр истории\nбронирований" as UC_History
+usecase "Управление книгами\n(добавление/удаление)" as UC_ManageBooks
+usecase "Выдача / возврат\nкниг" as UC_IssueReturn
+usecase "Управление\nфилиалами" as UC_ManageBranches
+usecase "Просмотр\nаналитики" as UC_Analytics
+
+Reader --> UC_Register
+Reader --> UC_ViewSearch
+Reader --> UC_Reserve
+Reader --> UC_CancelReserve
+Reader --> UC_History
+
+Librarian --> UC_ManageBooks
+Librarian --> UC_IssueReturn
+Librarian --> UC_ViewSearch
+Librarian --> UC_Reserve
+Librarian --> UC_History
+
+Admin --> UC_ManageBranches
+Admin --> UC_Analytics
+Admin --> UC_ManageBooks
+Admin --> UC_ViewSearch
+Admin --> UC_History
+
+UC_Reserve .> UC_ViewSearch : <<include>>
+UC_ManageBooks .> UC_ViewSearch : <<include>>
+UC_IssueReturn .> UC_ManageBooks : <<include>>
+UC_CancelReserve .> UC_Reserve : <<extend>>
+
+@enduml
